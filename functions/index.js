@@ -1,12 +1,17 @@
 const functions = require('firebase-functions');
 const app = require('express')();
 
+const { loginUser } = require('./api/users');
+
 const {
   getAllPosts,
   postOnePost,
   editPost,
   deletePost,
 } = require('./api/posts');
+
+// User Routes
+app.post('/login', loginUser);
 
 // Blog Post Routes
 app.get('/posts', getAllPosts);
