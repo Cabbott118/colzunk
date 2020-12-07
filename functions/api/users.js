@@ -5,7 +5,7 @@ const firebase = require('firebase');
 
 firebase.initializeApp(config);
 
-const { validateLoginData } = require('../util/validators');
+const { validateLoginData, validateSignUpData } = require('../util/validators');
 
 exports.loginUser = (request, response) => {
   const user = {
