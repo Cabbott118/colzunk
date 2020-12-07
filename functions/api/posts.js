@@ -44,7 +44,44 @@ exports.postOnePost = (request, response) => {
       return response.json(responsePostItem);
     })
     .catch((err) => {
-      response.status(500).json({ error: 'Something went wrong' });
+      response.status(500).json({ error: 'Something went wrong!' });
       console.error(err);
+    });
+};
+
+exports.deletePost = (request, response) => {
+  const document = db.doc(`/posts/${request.params.postId}`);
+  document
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        return response.status(404).json({ error: 'Post not found!' });
+      }
+      return document.delete();
+    })
+    .then(() => {
+      response.json({ message: 'Successfully deleted post!' });
+    })
+    .catch((err) => {
+      console.error(err);
+      return response.status(500).json({ error: err.code });
+    });
+};
+
+exports.editPost = (request, response) => {
+  if (request.body.postId || request.body.createdAt) {
+    response.status(403).json({ message: 'Not allowed to edit these fields!' });
+  }
+  let document = db.collection('posts').doc(`${request.params.postId}`);
+  document
+    .update(request.body)
+    .then(() => {
+      response.json({ message: 'Updated successfully!' });
+    })
+    .catch((err) => {
+      console.error(err);
+      return response.status(500).json({
+        error: err.code,
+      });
     });
 };
