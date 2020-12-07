@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 const app = require('express')();
 
-const { loginUser } = require('./api/users');
+const { loginUser, signUpUser } = require('./api/users');
 
 const {
   getAllPosts,
@@ -12,6 +12,7 @@ const {
 
 // User Routes
 app.post('/login', loginUser);
+app.post('/signup', signUpUser);
 
 // Blog Post Routes
 app.get('/posts', getAllPosts);
