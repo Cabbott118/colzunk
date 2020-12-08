@@ -1,32 +1,57 @@
 import { withStyles } from '@material-ui/core';
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+// Components
+import LoadingSpinner from '../components/LoadingSpinner';
+import BlogCard from '../components/BlogCard';
 
 // MUI
 
 // Redux
 import { connect } from 'react-redux';
+import { getPosts } from '../redux/actions/dataActions';
 
 const styles = (theme) => ({
   ...theme.spreadThis,
 });
 
 class Home extends Component {
+  componentDidMount() {
+    this.props.getPosts();
+  }
+
   render() {
-    const { classes } = this.props;
-    return (
-      <div>
-        <p>Home</p>
-      </div>
+    console.log(this.props);
+    const {
+      classes,
+      data: { loading, posts },
+    } = this.props;
+    let postMarkup = loading ? (
+      <LoadingSpinner loading={loading} />
+    ) : (
+      posts.map((post) => (
+        <BlogCard
+          key={post.postId}
+          id={post.postId}
+          title={post.title}
+          body={post.body}
+          createdAt={post.createdAt}
+        />
+      ))
     );
+
+    return <div>{postMarkup}</div>;
   }
 }
 
-// Home.propTypes = {
-//   data: PropTypes.func.isRequired,
-// };
+Home.propTypes = {
+  getPosts: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   data: state.data,
 });
 
-export default connect(mapStateToProps, {})(withStyles(styles)(Home));
+export default connect(mapStateToProps, { getPosts })(withStyles(styles)(Home));
