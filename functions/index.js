@@ -5,6 +5,7 @@ const {
   loginUser,
   signUpUser,
   getUserDetails,
+  updateUserDetails,
   uploadProfilePhoto,
 } = require('./api/users');
 
@@ -21,12 +22,13 @@ const auth = require('./util/auth');
 app.post('/login', loginUser);
 app.post('/signup', signUpUser);
 app.get('/user', auth, getUserDetails);
+app.post('/user', auth, updateUserDetails);
 app.post('/user/image', auth, uploadProfilePhoto);
 
 // Blog Post Routes
 app.get('/posts', getAllPosts);
-app.post('/post', postOnePost);
-app.put('/post/:postId', editPost);
-app.delete('/post/:postId', deletePost);
+app.post('/post', auth, postOnePost);
+app.put('/post/:postId', auth, editPost);
+app.delete('/post/:postId', auth, deletePost);
 
 exports.api = functions.https.onRequest(app);

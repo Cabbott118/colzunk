@@ -9,6 +9,7 @@ exports.getAllPosts = (request, response) => {
       data.forEach((doc) => {
         posts.push({
           postId: doc.id,
+          userId: doc.data().userId,
           title: doc.data().title,
           body: doc.data().body,
           createdAt: doc.data().createdAt,
@@ -32,6 +33,7 @@ exports.postOnePost = (request, response) => {
   }
 
   const newPostItem = {
+    userId: request.user.uid,
     title: request.body.title,
     body: request.body.body,
     createdAt: new Date().toISOString(),
@@ -57,7 +59,15 @@ exports.deletePost = (request, response) => {
       if (!doc.exists) {
         return response.status(404).json({ error: 'Post not found!' });
       }
-      return document.delete();
+      if (doc.data().userId !== request.user.uid) {
+        return response.status(403).json({
+          error: "This isn't your post, GTFO!",
+          stuff: doc.data(),
+          user: request.user,
+        });
+      } else {
+        return document.delete();
+      }
     })
     .then(() => {
       response.json({ message: 'Successfully deleted post!' });

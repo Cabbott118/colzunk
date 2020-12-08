@@ -94,20 +94,6 @@ exports.signUpUser = (request, response) => {
     });
 };
 
-const deleteImage = (imageName) => {
-  const bucket = admin.storage().bucket();
-  const path = `${imageName}`;
-  return bucket
-    .file(path)
-    .delete()
-    .then(() => {
-      return;
-    })
-    .catch((error) => {
-      return;
-    });
-};
-
 exports.getUserDetails = (request, response) => {
   let userData = {};
   db.doc(`/users/${request.user.email}`)
@@ -124,6 +110,35 @@ exports.getUserDetails = (request, response) => {
     });
 };
 
+exports.updateUserDetails = (request, response) => {
+  let document = db.collection('users').doc(`${request.user.email}`);
+  document
+    .update(request.body)
+    .then(() => {
+      response.json({ message: 'Updated user successfully!' });
+    })
+    .catch((error) => {
+      console.error(error);
+      return response.status(500).json({
+        message: 'Something went wrong. Could not update.',
+      });
+    });
+};
+
+const deleteImage = (imageName) => {
+  const bucket = admin.storage().bucket();
+  const path = `${imageName}`;
+  return bucket
+    .file(path)
+    .delete()
+    .then(() => {
+      return;
+    })
+    .catch((error) => {
+      return;
+    });
+};
+
 exports.uploadProfilePhoto = (request, response) => {
   const BusBoy = require('busboy');
   const path = require('path');
@@ -136,7 +151,9 @@ exports.uploadProfilePhoto = (request, response) => {
 
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
     if (mimetype !== 'image/png' && mimetype !== 'image/jpeg') {
-      return response.status(400).json({ error: 'Invalid file type submited' });
+      return response
+        .status(400)
+        .json({ error: 'Invalid file type submitted' });
     }
     const imageExtension = filename.split('.')[filename.split('.').length - 1];
     imageFileName = `${Math.round(
