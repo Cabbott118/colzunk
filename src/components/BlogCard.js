@@ -14,6 +14,7 @@ const styles = (theme) => ({
   blogPaper: {
     width: '100%',
     minHeight: '200px',
+    padding: '1rem 0',
   },
   image: {
     height: '200px',
@@ -36,12 +37,12 @@ function BlogCard(props) {
   const blogPost = (
     <Grid container direction='column' justify='flex-start' spacing={2}>
       <Grid item xs={12} sm={12} md={12} key={id}>
-        <Paper variant='outlined' className={classes.blogPaper}>
+        <Paper variant='outlined' elevation={0} className={classes.blogPaper}>
           <Grid container>
             <Grid item xs={12} md={4}>
               <img
                 alt=''
-                src='https://image.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-260nw-1037719192.jpg'
+                src='https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
                 className={classes.image}
               />
             </Grid>
@@ -74,7 +75,7 @@ function BlogCard(props) {
                     <Grid item>
                       <Button
                         variant='contained'
-                        color='primary'
+                        color='secondary'
                         className={classes.blogButton}
                       >
                         More Info
