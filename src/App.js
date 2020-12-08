@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 
 // Components & Pages
+import NavBar from './components/NavBar';
 import Home from './pages/Home';
 
 // Utility
@@ -22,7 +23,8 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <Provider store={store}>
-          <div className='App'>
+          <NavBar />
+          <div className='App' style={{ marginTop: '30px' }}>
             <Router>
               <Switch>
                 <Route exact path='/' component={Home} />

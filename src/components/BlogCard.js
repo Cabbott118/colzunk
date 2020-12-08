@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 // MUI
 import Grid from '@material-ui/core/Grid';
@@ -10,9 +12,8 @@ import Button from '@material-ui/core/Button';
 const styles = (theme) => ({
   ...theme.spreadThis,
   blogPaper: {
-    width: '75%',
+    width: '100%',
     minHeight: '200px',
-    position: 'relative',
   },
   image: {
     height: '200px',
@@ -30,6 +31,7 @@ const styles = (theme) => ({
 });
 
 function BlogCard(props) {
+  dayjs.extend(relativeTime);
   const { classes, id, title, body, createdAt } = props;
   const blogPost = (
     <Grid container direction='column' justify='flex-start' spacing={2}>
@@ -52,13 +54,10 @@ function BlogCard(props) {
                 spacing={1}
               >
                 <Grid item>
-                  <Typography variant='body1'>{title}</Typography>
+                  <Typography variant='h6'>{title}</Typography>
                 </Grid>
                 <Grid item>
-                  <Typography variant='h6'>{body}</Typography>
-                </Grid>
-                <Grid item>
-                  <Typography variant='body1'>{createdAt}</Typography>
+                  <Typography variant='body2'>{body}</Typography>
                 </Grid>
                 <Grid item className={classes.bottomItem}>
                   <Grid
@@ -68,11 +67,13 @@ function BlogCard(props) {
                     alignItems='center'
                   >
                     <Grid item>
-                      <Typography variant='subtitle1'>small item</Typography>
+                      <Typography variant='subtitle2'>
+                        {dayjs(createdAt).fromNow()} by Colleen Zunker
+                      </Typography>
                     </Grid>
                     <Grid item>
                       <Button
-                        variant='outlined'
+                        variant='contained'
                         color='primary'
                         className={classes.blogButton}
                       >

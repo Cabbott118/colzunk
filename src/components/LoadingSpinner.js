@@ -16,7 +16,7 @@ export default function LoadingSpinner(props) {
   return (
     <div>
       <Backdrop className={classes.backdrop} open={props.loading}>
-        <CircularProgress color='secondary' />
+        <CircularProgress color='primary' />
       </Backdrop>
     </div>
   );

@@ -1,7 +1,9 @@
 export default {
   palette: {
     primary: {
-      main: '#33c9dc',
+      // main: '#33c9dc',
+      main: '#808F85',
+      // #739E82
       contrastText: '#fff',
     },
     secondary: {

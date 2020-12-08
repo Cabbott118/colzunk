@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import BlogCard from '../components/BlogCard';
 
 // MUI
+import Container from '@material-ui/core/Container';
 
 // Redux
 import { connect } from 'react-redux';
@@ -41,7 +42,7 @@ class Home extends Component {
       ))
     );
 
-    return <div>{postMarkup}</div>;
+    return <Container maxWidth='md'>{postMarkup}</Container>;
   }
 }
 
