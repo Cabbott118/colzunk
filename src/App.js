@@ -12,6 +12,7 @@ import store from './redux/store';
 // Components & Pages
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
+import Signup from './pages/Signup';
 
 // Utility
 import themeFile from './util/theme';
@@ -24,10 +25,11 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <Provider store={store}>
           <NavBar />
-          <div className='App' style={{ marginTop: '30px' }}>
+          <div className='App' style={{ margin: '30px 15px 0px' }}>
             <Router>
               <Switch>
                 <Route exact path='/' component={Home} />
+                <Route exact path='/signup' component={Signup} />
               </Switch>
             </Router>
           </div>

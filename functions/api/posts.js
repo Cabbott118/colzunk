@@ -10,6 +10,7 @@ exports.getAllPosts = (request, response) => {
         posts.push({
           postId: doc.id,
           userId: doc.data().userId,
+          ownerImg: doc.data().ownerImg,
           title: doc.data().title,
           body: doc.data().body,
           createdAt: doc.data().createdAt,
@@ -34,6 +35,7 @@ exports.postOnePost = (request, response) => {
 
   const newPostItem = {
     userId: request.user.uid,
+    ownerImg: request.user.imageUrl,
     title: request.body.title,
     body: request.body.body,
     createdAt: new Date().toISOString(),
@@ -62,8 +64,6 @@ exports.deletePost = (request, response) => {
       if (doc.data().userId !== request.user.uid) {
         return response.status(403).json({
           error: "This isn't your post, GTFO!",
-          stuff: doc.data(),
-          user: request.user,
         });
       } else {
         return document.delete();

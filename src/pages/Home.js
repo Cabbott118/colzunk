@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 
 // Components
 import LoadingSpinner from '../components/LoadingSpinner';
-import BlogCard from '../components/BlogCard';
+import BlogPost from '../components/BlogPost';
 
 // MUI
-import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
 // Redux
 import { connect } from 'react-redux';
@@ -32,17 +32,22 @@ class Home extends Component {
       <LoadingSpinner loading={loading} />
     ) : (
       posts.map((post) => (
-        <BlogCard
+        <BlogPost
           key={post.postId}
           id={post.postId}
           title={post.title}
           body={post.body}
+          ownerImg={post.ownerImg}
           createdAt={post.createdAt}
         />
       ))
     );
 
-    return <Container maxWidth='md'>{postMarkup}</Container>;
+    return (
+      <Grid container spacing={3}>
+        {postMarkup}
+      </Grid>
+    );
   }
 }
 

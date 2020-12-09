@@ -1,123 +1,91 @@
 import {
-  USER_LOADED,
-  USER_LOADING,
-  AUTH_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
+  SET_USER,
+  SET_ERRORS,
+  CLEAR_ERRORS,
+  LOADING_UI,
+  LOADING_USER,
+  SET_UNAUTHENTICATED,
 } from '../types';
 import axios from 'axios';
 
-// Check token and load user
-export const loadUser = () => (dispatch, getState) => {
-  // User loading
-  dispatch({ type: USER_LOADING });
-
+export const loginUser = (userData, history) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
   axios
-    .get('/api/auth/user', tokenConfig(getState))
-    .then((res) =>
-      dispatch({
-        type: USER_LOADED,
-        payload: res.data,
-      })
-    )
+    .post('/login', userData)
+    .then((res) => {
+      setAuthorizationHeader(res.data.token);
+      dispatch(getUserData());
+      dispatch({ type: CLEAR_ERRORS });
+      history.push('/');
+    })
     .catch((err) => {
-      dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
-        type: AUTH_ERROR,
+        type: SET_ERRORS,
+        payload: err.response.data,
       });
     });
 };
 
-// Register User
-export const register = ({ first_name, last_name, email, password }) => (
-  dispatch
-) => {
-  // Headers (REMEMBER POSTMAN?)
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  // Request Body (User Register Info)
-  const body = JSON.stringify({ first_name, last_name, email, password });
-
-  // Pass in User Info which was stored into body and config
+export const signupUser = (newUserData, history) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
   axios
-    .post('/api/users', body, config)
-    .then((res) =>
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      })
-    )
+    .post('/signup', newUserData)
+    .then((res) => {
+      console.log(res);
+      setAuthorizationHeader(res.data.token);
+      dispatch(getUserData());
+      dispatch({ type: CLEAR_ERRORS });
+      history.push('/');
+    })
     .catch((err) => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL')
-      );
       dispatch({
-        type: REGISTER_FAIL,
+        type: SET_ERRORS,
+        payload: err.response.data,
       });
     });
 };
 
-// Login User
-export const login = ({ email, password }) => (dispatch) => {
-  // Headers (REMEMBER POSTMAN?)
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  // Request Body (User Login Info)
-  const body = JSON.stringify({ email, password });
-
-  // Pass in User Info which was stored into body and config
+export const getUserData = () => (dispatch) => {
+  dispatch({ type: LOADING_USER });
   axios
-    .post('/api/auth', body, config)
-    .then((res) =>
+    .get('/user')
+    .then((res) => {
       dispatch({
-        type: LOGIN_SUCCESS,
+        type: SET_USER,
         payload: res.data,
-      })
-    )
-    .catch((err) => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
-      );
-      dispatch({
-        type: LOGIN_FAIL,
       });
-    });
+    })
+    .catch((err) => console.log(err));
 };
 
-// Logout User
-export const logout = () => {
-  return {
-    type: LOGOUT_SUCCESS,
-  };
+export const logoutUser = () => (dispatch) => {
+  localStorage.removeItem('FBIdToken');
+  delete axios.defaults.headers.common['Authorization'];
+  dispatch({ type: SET_UNAUTHENTICATED });
 };
 
-// Setup config/headers and token
-export const tokenConfig = (getState) => {
-  // Get token from local storage
-  const token = getState().auth.token;
+export const uploadImage = (formData) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  axios
+    .post('/user/image', formData)
+    .then(() => {
+      dispatch(getUserData());
+    })
+    .catch((err) => console.log(err));
+};
 
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+export const editUserDetails = (userDetails) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  axios
+    .post('/user', userDetails)
+    .then(() => {
+      dispatch(getUserData());
+    })
+    .catch((err) => console.log(err));
+};
 
-  // If token, add to headers
-  if (token) {
-    config.headers['x-auth-token'] = token;
-  }
-
-  return config;
+const setAuthorizationHeader = (token) => {
+  const FBIdToken = `Bearer ${token}`;
+  localStorage.setItem('FBIdToken', FBIdToken);
+  axios.defaults.headers.common['Authorization'] = FBIdToken;
 };
