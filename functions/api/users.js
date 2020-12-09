@@ -54,7 +54,7 @@ exports.signUpUser = (request, response) => {
       if (doc.exists) {
         return response
           .status(400)
-          .json({ username: 'This email is already in use.' });
+          .json({ email: 'This email is already in use.' });
       } else {
         return firebase
           .auth()
@@ -89,7 +89,7 @@ exports.signUpUser = (request, response) => {
       } else {
         return response
           .status(500)
-          .json({ general: 'Something went wrong, please try again!' });
+          .json({ error: 'Something went wrong, please try again!' });
       }
     });
 };
@@ -120,7 +120,7 @@ exports.updateUserDetails = (request, response) => {
     .catch((error) => {
       console.error(error);
       return response.status(500).json({
-        message: 'Something went wrong. Could not update.',
+        error: 'Something went wrong. Could not update.',
       });
     });
 };

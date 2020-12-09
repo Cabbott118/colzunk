@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { signupUser } from '../redux/actions/userActions';
+import { loginUser } from '../redux/actions/userActions';
 
 // MUI
 import Grid from '@material-ui/core/Grid';
@@ -18,16 +18,12 @@ const styles = (theme) => ({
   ...theme.spreadThis,
 });
 
-export class Signup extends Component {
+export class Login extends Component {
   constructor() {
     super();
     this.state = {
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
       email: '',
       password: '',
-      confirmPassword: '',
       errors: {},
     };
   }
@@ -42,15 +38,14 @@ export class Signup extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.setState({
+      loading: true,
+    });
     const newUserData = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      phoneNumber: this.state.phoneNumber,
       email: this.state.email,
       password: this.state.password,
-      confirmPassword: this.state.confirmPassword,
     };
-    this.props.signupUser(newUserData, this.props.history);
+    this.props.loginUser(newUserData, this.props.history);
   };
 
   handleChange = (e) => {
@@ -60,7 +55,6 @@ export class Signup extends Component {
   };
 
   render() {
-    console.log(this.state);
     const {
       classes,
       UI: { loading },
@@ -71,49 +65,13 @@ export class Signup extends Component {
         <Grid item sm />
         <Grid item sm>
           <Typography variant='h3' className={classes.pageTitle}>
-            Sign Up
+            Login
           </Typography>
           <form
             className={classes.accountForm}
             noValidate
             onSubmit={this.handleSubmit}
           >
-            <TextField
-              id='firstName'
-              name='firstName'
-              type='text'
-              label='First Name'
-              className={classes.textField}
-              helperText={errors.firstName}
-              error={errors.firstName ? true : false}
-              value={this.state.firstName}
-              onChange={this.handleChange}
-              fullWidth
-            />
-            <TextField
-              id='lastName'
-              name='lastName'
-              type='text'
-              label='Last Name'
-              className={classes.textField}
-              helperText={errors.lastName}
-              error={errors.lastName ? true : false}
-              value={this.state.lastName}
-              onChange={this.handleChange}
-              fullWidth
-            />
-            <TextField
-              id='phoneNumber'
-              name='phoneNumber'
-              type='text'
-              label='Phone Number'
-              className={classes.textField}
-              helperText={errors.phoneNumber}
-              error={errors.phoneNumber ? true : false}
-              value={this.state.phoneNumber}
-              onChange={this.handleChange}
-              fullWidth
-            />
             <TextField
               id='email'
               name='email'
@@ -138,18 +96,6 @@ export class Signup extends Component {
               onChange={this.handleChange}
               fullWidth
             />
-            <TextField
-              id='confirmPassword'
-              name='confirmPassword'
-              type='password'
-              label='Confirm Password'
-              className={classes.textField}
-              helperText={errors.confirmPassword}
-              error={errors.confirmPassword ? true : false}
-              value={this.state.confirmPassword}
-              onChange={this.handleChange}
-              fullWidth
-            />
             {errors.general && (
               <Typography variant='body2' className={classes.customError}>
                 {errors.general}
@@ -162,14 +108,14 @@ export class Signup extends Component {
               className={classes.button}
               disabled={loading}
             >
-              Sign Up
+              Login
               {loading && (
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <br />
             <small>
-              Already have an account? Login <Link to='/login'>here!</Link>
+              Don't have an account? Register <Link to='/signup'>here!</Link>
             </small>
           </form>
         </Grid>
@@ -179,8 +125,8 @@ export class Signup extends Component {
   }
 }
 
-Signup.propTypes = {
-  signupUser: PropTypes.func.isRequired,
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
@@ -192,10 +138,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapActionsToProps = {
-  signupUser,
+  loginUser,
 };
 
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(withStyles(styles)(Signup));
+)(withStyles(styles)(Login));

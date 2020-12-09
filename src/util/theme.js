@@ -2,11 +2,11 @@ export default {
   palette: {
     primary: {
       // main: '#33c9dc',
-      main: '#586994',
-      contrastText: '#eee',
+      main: '#7E8D85',
+      contrastText: '#fff',
     },
     secondary: {
-      main: '#06908f',
+      main: '#3C493F',
       contrastText: '#fff',
     },
   },
@@ -27,6 +27,7 @@ export default {
     button: {
       marginTop: 20,
       position: 'relative',
+      textTransform: 'none',
     },
     customError: {
       color: 'red',

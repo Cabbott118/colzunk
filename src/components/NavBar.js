@@ -1,5 +1,7 @@
 import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
+
+// MUI
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -20,7 +22,7 @@ const styles = (theme) => ({
   },
 });
 
-function NavBar(props) {
+const NavBar = (props) => {
   const { classes } = props;
 
   return (
@@ -43,6 +45,6 @@ function NavBar(props) {
       </AppBar>
     </div>
   );
-}
+};
 
 export default withStyles(styles)(NavBar);

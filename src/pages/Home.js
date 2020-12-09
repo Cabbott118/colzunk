@@ -23,7 +23,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.props);
     const {
       classes,
       data: { loading, posts },
