@@ -26,6 +26,7 @@ export default {
     },
     button: {
       marginTop: 20,
+      marginBottom: 20,
       position: 'relative',
       textTransform: 'none',
     },
