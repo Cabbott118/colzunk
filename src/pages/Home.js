@@ -24,7 +24,7 @@ class Home extends Component {
 
   render() {
     const {
-      classes,
+      // classes,
       data: { loading, posts },
     } = this.props;
     let postMarkup = loading ? (

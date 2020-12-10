@@ -29,6 +29,9 @@ export default {
       position: 'relative',
       textTransform: 'none',
     },
+    navButton: {
+      textTransform: 'none',
+    },
     customError: {
       color: 'red',
       fontSize: '0.8rem',

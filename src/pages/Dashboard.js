@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 
@@ -32,7 +31,6 @@ export class Dashboard extends Component {
     const {
       classes,
       user: { loading, userCredentials },
-      UI,
     } = this.props;
 
     let userMarkUp = loading ? (

@@ -40,7 +40,22 @@ const NavBar = (props) => {
           <Typography variant='h6' className={classes.title}>
             News
           </Typography>
-          <Button color='inherit'>Login</Button>
+          <Button className={classes.navButton} color='inherit' href='/'>
+            Home
+          </Button>
+          <Button
+            className={classes.navButton}
+            color='inherit'
+            href='/dashboard'
+          >
+            Dashboard
+          </Button>
+          <Button className={classes.navButton} color='inherit' href='/login'>
+            Login
+          </Button>
+          <Button className={classes.navButton} color='inherit' href='/signup'>
+            Signup
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
