@@ -9,9 +9,6 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = (theme) => ({
   ...theme.spreadThis,
-  paper: {
-    // minHeight: '70vh',
-  },
 });
 
 const UserInfo = (props) => {
@@ -20,56 +17,35 @@ const UserInfo = (props) => {
     user: { firstName, lastName, email, phoneNumber, imageUrl },
   } = props;
   return (
-    <Paper className={classes.paper}>
-      <Grid
-        container
-        spacing={2}
-        direction='row'
-        justify='center'
-        alignItems='center'
-      >
-        <Grid item>
-          <Grid
-            container
-            direction='column'
-            justify='center'
-            alignItems='flex-start'
-          >
-            <Grid item>
-              <Typography variant='body1'>Name:</Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant='body1'>Email:</Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant='body1'>Phone Number:</Typography>
-            </Grid>
+    <Grid item>
+      <Paper variant='outlined' className={classes.paper}>
+        <Typography variant='h5' className={classes.pageTitle}>
+          User Info
+        </Typography>
+        <Grid
+          container
+          spacing={2}
+          direction='column'
+          justify='center'
+          alignItems='flex-start'
+        >
+          <Grid item>
+            <Typography variant='h6'>Name</Typography>
+            <Typography variant='body1'>
+              {firstName} {lastName}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='h6'>Registerd Email</Typography>
+            <Typography variant='body1'>{email}</Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='h6'>Phone Number</Typography>
+            <Typography variant='body1'>{phoneNumber}</Typography>
           </Grid>
         </Grid>
-        <Grid item>
-          <Grid
-            container
-            direction='column'
-            justify='center'
-            alignItems='flex-start'
-          >
-            <Grid item>
-              <Typography variant='body1'>
-                {firstName} {lastName}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography noWrap variant='body1'>
-                {email}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant='body1'>{phoneNumber}</Typography>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Paper>
+      </Paper>
+    </Grid>
   );
 };
 export default withStyles(styles)(UserInfo);

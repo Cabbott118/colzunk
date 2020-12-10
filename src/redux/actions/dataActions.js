@@ -1,10 +1,11 @@
 import proxyUrl from '../../util/proxy';
 import {
   SET_POSTS,
+  ADD_POST,
   LOADING_DATA,
-  // LOADING_UI,
+  LOADING_UI,
   // STOP_LOADING_UI,
-  // SET_ERRORS,
+  SET_ERRORS,
   CLEAR_ERRORS,
 } from '../types';
 import axios from 'axios';
@@ -23,6 +24,27 @@ export const getPosts = () => (dispatch) => {
       dispatch({
         type: SET_POSTS,
         payload: [],
+      });
+    });
+};
+
+export const addPost = (newPost) => (dispatch) => {
+  dispatch({
+    type: LOADING_UI,
+  });
+  axios
+    .post(`${proxyUrl}/post`, newPost)
+    .then((res) => {
+      dispatch({
+        type: ADD_POST,
+        payload: res.data,
+      });
+      dispatch(clearErrors());
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
       });
     });
 };

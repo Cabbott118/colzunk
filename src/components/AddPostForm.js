@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { loginUser } from '../redux/actions/userActions';
+import { addPost } from '../redux/actions/dataActions';
 
 // MUI
 import Grid from '@material-ui/core/Grid';
@@ -13,17 +12,18 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Paper from '@material-ui/core/Paper';
 
 const styles = (theme) => ({
   ...theme.spreadThis,
 });
 
-export class Login extends Component {
+export class AddPostForm extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
-      password: '',
+      title: '',
+      body: '',
       errors: {},
     };
   }
@@ -38,11 +38,11 @@ export class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const newUserData = {
-      email: this.state.email,
-      password: this.state.password,
+    const newPostData = {
+      title: this.state.title,
+      body: this.state.body,
     };
-    this.props.loginUser(newUserData, this.props.history);
+    this.props.addPost(newPostData);
   };
 
   handleChange = (e) => {
@@ -58,11 +58,10 @@ export class Login extends Component {
     } = this.props;
     const { errors } = this.state;
     return (
-      <Grid container className={classes.form}>
-        <Grid item sm />
-        <Grid item sm>
-          <Typography variant='h3' className={classes.pageTitle}>
-            Login
+      <Grid item>
+        <Paper variant='outlined' className={classes.paper}>
+          <Typography variant='h5' className={classes.pageTitle}>
+            Add Post
           </Typography>
           <form
             className={classes.accountForm}
@@ -70,26 +69,30 @@ export class Login extends Component {
             onSubmit={this.handleSubmit}
           >
             <TextField
-              id='email'
-              name='email'
-              type='email'
-              label='Email'
+              id='title'
+              name='title'
+              type='title'
+              label='Post Title'
+              variant='outlined'
               className={classes.textField}
-              helperText={errors.email}
-              error={errors.email ? true : false}
-              value={this.state.email}
+              helperText={errors.title}
+              error={errors.title ? true : false}
+              value={this.state.title}
               onChange={this.handleChange}
               fullWidth
             />
             <TextField
-              id='password'
-              name='password'
-              type='password'
-              label='Password'
+              id='body'
+              name='body'
+              type='body'
+              label='Post Body'
+              variant='outlined'
+              multiline
+              rows={4}
               className={classes.textField}
-              helperText={errors.password}
-              error={errors.password ? true : false}
-              value={this.state.password}
+              helperText={errors.body}
+              error={errors.body ? true : false}
+              value={this.state.body}
               onChange={this.handleChange}
               fullWidth
             />
@@ -102,43 +105,37 @@ export class Login extends Component {
               type='submit'
               variant='contained'
               color='primary'
+              fullWidth
               className={classes.button}
               disabled={loading}
             >
-              Login
+              Add Post
               {loading && (
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
-            <br />
-            <small>
-              Don't have an account? Register <Link to='/signup'>here!</Link>
-            </small>
           </form>
-        </Grid>
-        <Grid item sm />
+        </Paper>
       </Grid>
     );
   }
 }
 
-Login.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+AddPostForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user,
+  data: state.data,
   UI: state.UI,
 });
 
 const mapActionsToProps = {
-  loginUser,
+  addPost,
 };
 
 export default connect(
   mapStateToProps,
   mapActionsToProps
-)(withStyles(styles)(Login));
+)(withStyles(styles)(AddPostForm));

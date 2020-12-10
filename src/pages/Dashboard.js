@@ -5,9 +5,12 @@ import PropTypes from 'prop-types';
 // Components
 import LoadingSpinner from '../components/LoadingSpinner';
 import UserInfo from '../components/UserInfo';
+import AddPostForm from '../components/AddPostForm';
 
 // MUI
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 // Redux
 import { connect } from 'react-redux';
@@ -41,9 +44,27 @@ export class Dashboard extends Component {
       <UserInfo user={userCredentials} />
     );
 
+    let addPostMarkup = loading ? (
+      <LoadingSpinner loading={loading} />
+    ) : !userCredentials ? (
+      <LoadingSpinner loading={userCredentials} />
+    ) : (
+      <AddPostForm user={userCredentials} />
+    );
+
     return (
-      <div>
-        {userMarkUp}
+      <Paper className={classes.paper}>
+        <Grid
+          container
+          spacing={2}
+          direction='row'
+          justify='center'
+          alignItems='flex-start'
+        >
+          {userMarkUp}
+          {addPostMarkup}
+        </Grid>
+
         <Button
           className={classes.button}
           variant='contained'
@@ -52,7 +73,7 @@ export class Dashboard extends Component {
         >
           Logout
         </Button>
-      </div>
+      </Paper>
     );
   }
 }

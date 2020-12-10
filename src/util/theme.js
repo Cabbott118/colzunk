@@ -24,6 +24,9 @@ export default {
     textField: {
       margin: '10px auto 10px auto',
     },
+    paper: {
+      padding: 20,
+    },
     button: {
       marginTop: 20,
       marginBottom: 20,
