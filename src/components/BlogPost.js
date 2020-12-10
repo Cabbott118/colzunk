@@ -60,7 +60,12 @@ function BlogPost(props) {
             <Typography gutterBottom variant='h5' component='h2'>
               {title}
             </Typography>
-            <Typography variant='body2' color='textSecondary' component='p'>
+            <Typography
+              noWrap
+              variant='body2'
+              color='textSecondary'
+              component='p'
+            >
               {body}
             </Typography>
           </CardContent>

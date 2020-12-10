@@ -5,13 +5,12 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { Typography } from '@material-ui/core';
-// import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography';
 
 const styles = (theme) => ({
   ...theme.spreadThis,
   paper: {
-    minHeight: '70vh',
+    // minHeight: '70vh',
   },
 });
 
@@ -60,7 +59,9 @@ const UserInfo = (props) => {
               </Typography>
             </Grid>
             <Grid item>
-              <Typography variant='body1'>{email}</Typography>
+              <Typography noWrap variant='body1'>
+                {email}
+              </Typography>
             </Grid>
             <Grid item>
               <Typography variant='body1'>{phoneNumber}</Typography>
