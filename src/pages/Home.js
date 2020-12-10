@@ -27,7 +27,6 @@ class Home extends Component {
       // classes,
       data: { loading, posts },
     } = this.props;
-    console.log(this.props);
     let postMarkup = loading ? (
       <LoadingSpinner loading={loading} />
     ) : (

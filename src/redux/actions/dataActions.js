@@ -1,3 +1,4 @@
+import proxyUrl from '../../util/proxy';
 import {
   SET_POSTS,
   LOADING_DATA,
@@ -11,7 +12,7 @@ import axios from 'axios';
 export const getPosts = () => (dispatch) => {
   dispatch({ type: LOADING_DATA });
   axios
-    .get('/posts')
+    .get(`${proxyUrl}/posts`)
     .then((res) => {
       dispatch({
         type: SET_POSTS,

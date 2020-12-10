@@ -1,3 +1,4 @@
+import proxyUrl from '../../util/proxy';
 import {
   SET_USER,
   SET_ERRORS,
@@ -11,7 +12,7 @@ import axios from 'axios';
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .post('/login', userData)
+    .post(`${proxyUrl}/login`, userData)
     .then((res) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
@@ -29,7 +30,7 @@ export const loginUser = (userData, history) => (dispatch) => {
 export const signupUser = (newUserData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .post('/signup', newUserData)
+    .post(`${proxyUrl}/signup`, newUserData)
     .then((res) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
@@ -47,7 +48,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
 export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .get('/user')
+    .get(`${proxyUrl}/user`)
     .then((res) => {
       dispatch({
         type: SET_USER,
@@ -67,7 +68,7 @@ export const logoutUser = () => (dispatch) => {
 export const uploadImage = (formData) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .post('/user/image', formData)
+    .post(`${proxyUrl}/user/image`, formData)
     .then(() => {
       dispatch(getUserData());
     })
@@ -77,7 +78,7 @@ export const uploadImage = (formData) => (dispatch) => {
 export const editUserDetails = (userDetails) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .post('/user', userDetails)
+    .post(`${proxyUrl}/user`, userDetails)
     .then(() => {
       dispatch(getUserData());
     })
