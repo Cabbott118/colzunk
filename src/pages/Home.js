@@ -27,6 +27,7 @@ class Home extends Component {
       // classes,
       data: { loading, posts },
     } = this.props;
+    console.log(this.props);
     let postMarkup = loading ? (
       <LoadingSpinner loading={loading} />
     ) : (
@@ -53,10 +54,12 @@ class Home extends Component {
 Home.propTypes = {
   getPosts: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
+  posts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   data: state.data,
+  posts: state.data.posts,
 });
 
 export default connect(mapStateToProps, { getPosts })(withStyles(styles)(Home));
