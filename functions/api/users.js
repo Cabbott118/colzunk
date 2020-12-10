@@ -33,6 +33,8 @@ exports.loginUser = (request, response) => {
     });
 };
 
+const noImg = 'userStockImg.JPG';
+
 exports.signUpUser = (request, response) => {
   const newUser = {
     firstName: request.body.firstName,
@@ -72,6 +74,7 @@ exports.signUpUser = (request, response) => {
         lastName: newUser.lastName,
         phoneNumber: newUser.phoneNumber,
         email: newUser.email,
+        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
         createdAt: new Date().toISOString(),
         userId,
       };
