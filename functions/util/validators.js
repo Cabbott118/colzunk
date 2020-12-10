@@ -1,3 +1,6 @@
+const { admin } = require('./admin');
+const config = require('./config');
+
 const isEmpty = (string) => {
   return string.trim() === '';
 };
@@ -39,4 +42,8 @@ exports.validateSignUpData = (data) => {
     errors,
     valid: Object.keys(errors).length === 0 ? true : false,
   };
+};
+
+exports.imageHandler = (image) => {
+  return { image };
 };

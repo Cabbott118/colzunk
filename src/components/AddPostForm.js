@@ -24,6 +24,7 @@ export class AddPostForm extends Component {
     this.state = {
       title: '',
       body: '',
+      // imageFile: null,
       errors: {},
     };
   }
@@ -41,6 +42,7 @@ export class AddPostForm extends Component {
     const newPostData = {
       title: this.state.title,
       body: this.state.body,
+      // imageFile: this.state.imageFile,
     };
     this.props.addPost(newPostData);
   };
@@ -50,6 +52,13 @@ export class AddPostForm extends Component {
       [e.target.name]: e.target.value,
     });
   };
+
+  // handleImageChange = (e) => {
+  //   console.log(e.target.files[0]);
+  //   this.setState({
+  //     imageFile: e.target.files[0],
+  //   });
+  // };
 
   render() {
     const {
@@ -96,6 +105,11 @@ export class AddPostForm extends Component {
               onChange={this.handleChange}
               fullWidth
             />
+            {/* <input
+              type='file'
+              id='imageInput'
+              onChange={this.handleImageChange}
+            /> */}
             {errors.general && (
               <Typography variant='body2' className={classes.customError}>
                 {errors.general}

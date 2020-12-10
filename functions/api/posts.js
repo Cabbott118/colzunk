@@ -1,4 +1,5 @@
 const { db } = require('../util/admin');
+const firebase = require('firebase');
 
 exports.getAllPosts = (request, response) => {
   db.collection('posts')
@@ -28,18 +29,18 @@ exports.postOnePost = (request, response) => {
   if (request.body.title.trim() === '') {
     return response.status(400).json({ title: 'Title cannot be empty!' });
   }
-
   if (request.body.body.trim() === '') {
     return response.status(400).json({ body: 'Body cannot be empty!' });
   }
 
-  const newPostItem = {
+  let newPostItem = {
     userId: request.user.uid,
     ownerImg: request.user.imageUrl,
     title: request.body.title,
     body: request.body.body,
     createdAt: new Date().toISOString(),
   };
+
   db.collection('posts')
     .add(newPostItem)
     .then((doc) => {

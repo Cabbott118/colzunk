@@ -51,11 +51,7 @@ function BlogPost(props) {
     <Grid item xs={12} sm={6} md={4} key={id}>
       <Card className={classes.card}>
         <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image={ownerImg}
-            title='Contemplative Reptile'
-          />
+          <CardMedia className={classes.media} image={ownerImg} title='' />
           <CardContent>
             <Typography gutterBottom variant='h5' component='h2'>
               {title}
