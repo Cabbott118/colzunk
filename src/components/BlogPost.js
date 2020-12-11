@@ -14,9 +14,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-
-// Components
-import LoadingSpinner from './LoadingSpinner';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = (theme) => ({
   ...theme.spreadThis,
@@ -55,7 +53,7 @@ function BlogPost(props) {
       <Card className={classes.card}>
         <CardActionArea>
           {!imageUrl ? (
-            <LoadingSpinner loading={true} />
+            <CircularProgress />
           ) : (
             <CardMedia
               className={classes.media}

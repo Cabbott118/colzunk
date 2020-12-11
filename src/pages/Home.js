@@ -36,6 +36,7 @@ class Home extends Component {
           id={post.postId}
           title={post.title}
           body={post.body}
+          imageUrl={post.imageUrl}
           ownerImg={post.ownerImg}
           createdAt={post.createdAt}
         />
