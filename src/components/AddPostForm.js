@@ -14,6 +14,10 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 
+// Util
+import { app } from '../util/base';
+const db = app.firestore();
+
 const styles = (theme) => ({
   ...theme.spreadThis,
 });
@@ -24,7 +28,8 @@ export class AddPostForm extends Component {
     this.state = {
       title: '',
       body: '',
-      // imageFile: null,
+      oldFileName: '',
+      imageUrl: '',
       errors: {},
     };
   }
@@ -42,7 +47,7 @@ export class AddPostForm extends Component {
     const newPostData = {
       title: this.state.title,
       body: this.state.body,
-      // imageFile: this.state.imageFile,
+      imageUrl: this.state.imageUrl,
     };
     this.props.addPost(newPostData);
   };
@@ -53,12 +58,25 @@ export class AddPostForm extends Component {
     });
   };
 
-  // handleImageChange = (e) => {
-  //   console.log(e.target.files[0]);
-  //   this.setState({
-  //     imageFile: e.target.files[0],
-  //   });
-  // };
+  handleImageChange = async (e) => {
+    let file = e.target.files[0];
+    this.setState({
+      oldFileName: file.name,
+    });
+
+    const imageExtension = file.name.split('.')[
+      file.name.split('.').length - 1
+    ];
+    let imageFileName = `${Math.round(
+      Math.random() * 1000000000000
+    ).toString()}.${imageExtension}`;
+    const storageRef = app.storage().ref();
+    const fileRef = storageRef.child(imageFileName);
+    await fileRef.put(file);
+    this.setState({
+      imageUrl: await fileRef.getDownloadURL(),
+    });
+  };
 
   render() {
     const {
@@ -77,6 +95,11 @@ export class AddPostForm extends Component {
             noValidate
             onSubmit={this.handleSubmit}
           >
+            <input
+              type='file'
+              id='imageInput'
+              onChange={this.handleImageChange}
+            />
             <TextField
               id='title'
               name='title'
@@ -105,11 +128,6 @@ export class AddPostForm extends Component {
               onChange={this.handleChange}
               fullWidth
             />
-            {/* <input
-              type='file'
-              id='imageInput'
-              onChange={this.handleImageChange}
-            /> */}
             {errors.general && (
               <Typography variant='body2' className={classes.customError}>
                 {errors.general}

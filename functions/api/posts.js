@@ -1,5 +1,4 @@
 const { db } = require('../util/admin');
-const firebase = require('firebase');
 
 exports.getAllPosts = (request, response) => {
   db.collection('posts')
@@ -12,6 +11,7 @@ exports.getAllPosts = (request, response) => {
           postId: doc.id,
           userId: doc.data().userId,
           ownerImg: doc.data().ownerImg,
+          imageUrl: doc.data().imageUrl,
           title: doc.data().title,
           body: doc.data().body,
           createdAt: doc.data().createdAt,
@@ -36,6 +36,7 @@ exports.postOnePost = (request, response) => {
   let newPostItem = {
     userId: request.user.uid,
     ownerImg: request.user.imageUrl,
+    imageUrl: request.body.imageUrl,
     title: request.body.title,
     body: request.body.body,
     createdAt: new Date().toISOString(),

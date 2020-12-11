@@ -15,6 +15,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
+// Components
+import LoadingSpinner from './LoadingSpinner';
+
 const styles = (theme) => ({
   ...theme.spreadThis,
   blogsContainer: {
@@ -46,12 +49,20 @@ const styles = (theme) => ({
 
 function BlogPost(props) {
   dayjs.extend(relativeTime);
-  const { classes, id, title, body, ownerImg, createdAt } = props;
+  const { classes, id, title, body, imageUrl, ownerImg, createdAt } = props;
   return (
     <Grid item xs={12} sm={6} md={4} key={id}>
       <Card className={classes.card}>
         <CardActionArea>
-          <CardMedia className={classes.media} image={ownerImg} title='' />
+          {!imageUrl ? (
+            <LoadingSpinner loading={true} />
+          ) : (
+            <CardMedia
+              className={classes.media}
+              image={imageUrl}
+              title='Post Image'
+            />
+          )}
           <CardContent>
             <Typography gutterBottom variant='h5' component='h2'>
               {title}
