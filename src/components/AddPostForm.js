@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 // Util
 import { app } from '../util/base';
@@ -30,6 +31,7 @@ export class AddPostForm extends Component {
       body: '',
       oldFileName: '',
       imageUrl: '',
+      progress: 0,
       errors: {},
     };
   }
@@ -58,24 +60,77 @@ export class AddPostForm extends Component {
     });
   };
 
+  handleInputClick = () => {
+    const fileInput = document.getElementById('imageInput');
+    fileInput.click();
+  };
+
   handleImageChange = async (e) => {
     let file = e.target.files[0];
-    this.setState({
-      oldFileName: file.name,
-    });
+    // this.setState({
+    //   oldFileName: file.name,
+    // });
 
-    const imageExtension = file.name.split('.')[
-      file.name.split('.').length - 1
-    ];
-    let imageFileName = `${Math.round(
-      Math.random() * 1000000000000
-    ).toString()}.${imageExtension}`;
-    const storageRef = app.storage().ref();
-    const fileRef = storageRef.child(imageFileName);
-    await fileRef.put(file);
-    this.setState({
-      imageUrl: await fileRef.getDownloadURL(),
-    });
+    const uploadTask = app.storage().ref().child(file.name).put(file);
+    // const storageRef = app.storage().ref();
+    // const fileRef = storageRef.child(imageFileName).put(file);
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        this.setState({
+          progress,
+        });
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        app
+          .storage()
+          .ref()
+          .child(file.name)
+          .getDownloadURL()
+          .then((imageUrl) => {
+            this.setState({ imageUrl });
+          });
+      }
+    );
+
+    // const imageExtension = file.name.split('.')[
+    //   file.name.split('.').length - 1
+    // ];
+    // let imageFileName = `${Math.round(
+    //   Math.random() * 1000000000000
+    // ).toString()}.${imageExtension}`;
+    // const storageRef = app.storage().ref();
+    // const fileRef = storageRef.child(imageFileName).put(file);
+    // await fileRef.put(file);
+
+    // fileRef.on('state_changed', function (snapshot) {
+    //   let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //   console.log(progress);
+    // });
+    // fileRef.on(
+    //   'state_changed',
+    //   function (snapshot) {
+    //     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+    //     console.log(progress);
+    //   },
+    //   function (error) {
+    //     console.log(error);
+    //   },
+    //   function () {
+    //     fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+    //       this.setState({
+    //         imageUrl: downloadURL,
+    //       });
+    //     });
+    //   }
+    // );
   };
 
   render() {
@@ -83,7 +138,7 @@ export class AddPostForm extends Component {
       classes,
       UI: { loading },
     } = this.props;
-    const { errors } = this.state;
+    const { errors, progress, imageUrl } = this.state;
     return (
       <Grid item>
         <Paper variant='outlined' className={classes.paper}>
@@ -96,10 +151,37 @@ export class AddPostForm extends Component {
             onSubmit={this.handleSubmit}
           >
             <input
+              hidden
               type='file'
               id='imageInput'
+              ref={this.hiddenFileInput}
               onChange={this.handleImageChange}
             />
+            <Button
+              type='submit'
+              variant='contained'
+              color='primary'
+              className={classes.button}
+              onClick={this.handleInputClick}
+            >
+              Upload Image
+            </Button>
+            <img
+              src={imageUrl || 'https://via.placeholder.com/150x100'}
+              style={{ objectFit: 'cover' }}
+              alt='upload box'
+              height='100'
+              width='150'
+            />
+            <LinearProgress
+              variant='determinate'
+              color='secondary'
+              value={progress}
+              style={{ marginTop: 10 }}
+            />
+            <Typography variant='subtitle2'>
+              Upload Progress: {progress}%
+            </Typography>
             <TextField
               id='title'
               name='title'
