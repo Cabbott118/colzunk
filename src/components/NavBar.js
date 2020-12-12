@@ -1,5 +1,6 @@
 import React from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
 // MUI
 import AppBar from '@material-ui/core/AppBar';
@@ -7,59 +8,78 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import withWidth from '@material-ui/core/withWidth';
+import Hidden from '@material-ui/core/Hidden';
 
-const styles = (theme) => ({
+// Components
+import NavDrawer from './NavDrawer';
+
+const useStyles = makeStyles((theme) => ({
   ...theme.spreadThis,
   root: {
     flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginLeft: 'auto',
   },
   title: {
     flexGrow: 1,
   },
-});
+}));
 
 const NavBar = (props) => {
-  const { classes } = props;
+  const classes = useStyles();
+  const { width } = props;
 
   return (
     <div className={classes.root}>
       <AppBar position='static' color='primary'>
         <Toolbar>
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            color='inherit'
-            aria-label='menu'
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography variant='h6' className={classes.title}>
-            News
+            ColZunk
           </Typography>
-          <Button className={classes.navButton} color='inherit' href='/'>
-            Home
-          </Button>
-          <Button
-            className={classes.navButton}
-            color='inherit'
-            href='/dashboard'
-          >
-            Dashboard
-          </Button>
-          <Button className={classes.navButton} color='inherit' href='/login'>
-            Login
-          </Button>
-          <Button className={classes.navButton} color='inherit' href='/signup'>
-            Signup
-          </Button>
+          <Hidden smDown>
+            <Button className={classes.navButton} color='inherit' href='/'>
+              Home
+            </Button>
+            <Button
+              className={classes.navButton}
+              color='inherit'
+              href='/dashboard'
+            >
+              Dashboard
+            </Button>
+            <Button className={classes.navButton} color='inherit' href='/login'>
+              Login
+            </Button>
+            <Button
+              className={classes.navButton}
+              color='inherit'
+              href='/signup'
+            >
+              Signup
+            </Button>
+          </Hidden>
+          <Hidden mdUp>
+            <IconButton
+              edge='start'
+              className={classes.menuButton}
+              color='inherit'
+              aria-label='menu'
+            >
+              <NavDrawer />
+            </IconButton>
+          </Hidden>
         </Toolbar>
       </AppBar>
     </div>
   );
 };
 
-export default withStyles(styles)(NavBar);
+// export default withStyles(styles)(NavBar);
+
+NavBar.propTypes = {
+  width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
+};
+
+export default withWidth()(NavBar);

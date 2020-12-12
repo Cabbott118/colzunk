@@ -155,7 +155,7 @@ export class AddPostForm extends Component {
               variant='determinate'
               color='primary'
               value={progress}
-              style={{ marginTop: 10 }}
+              style={{ margin: '10px 0px' }}
             />
             <Typography variant='subtitle2'>
               Upload Progress: {progress}%

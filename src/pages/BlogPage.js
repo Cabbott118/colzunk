@@ -44,7 +44,9 @@ class BlogPage extends Component {
 
     return (
       <div style={{ margin: '30px' }}>
-        <Grid container>{postMarkup}</Grid>
+        <Grid container spacing={3}>
+          {postMarkup}
+        </Grid>
       </div>
     );
   }

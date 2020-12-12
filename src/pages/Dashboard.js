@@ -62,16 +62,24 @@ export class Dashboard extends Component {
         >
           {userMarkUp}
           {addPostMarkup}
+          <Button
+            className={classes.button}
+            variant='contained'
+            color='secondary'
+            onClick={this.handleLogout}
+          >
+            Logout
+          </Button>
         </Grid>
 
-        <Button
+        {/* <Button
           className={classes.button}
           variant='contained'
           color='secondary'
           onClick={this.handleLogout}
         >
           Logout
-        </Button>
+        </Button> */}
       </Paper>
     );
   }

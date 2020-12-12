@@ -2,7 +2,6 @@ import React from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 // MUI
-// import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -29,6 +28,14 @@ const UserInfo = (props) => {
           justify='center'
           alignItems='flex-start'
         >
+          <Grid item>
+            <img
+              src={imageUrl}
+              height='175px'
+              width='200px'
+              style={{ objectFit: 'cover', borderRadius: '5px' }}
+            />
+          </Grid>
           <Grid item>
             <Typography variant='h6'>Name</Typography>
             <Typography variant='body1'>
