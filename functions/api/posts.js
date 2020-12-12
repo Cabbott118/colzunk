@@ -25,6 +25,26 @@ exports.getAllPosts = (request, response) => {
     });
 };
 
+exports.getOnePost = (request, response) => {
+  db.doc(`/posts/${request.params.postId}`)
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        return response.status(404).json({
+          error: 'Could not find Post!',
+        });
+      }
+
+      let PostData = doc.data();
+      PostData.postId = doc.id;
+      return response.json(PostData);
+    })
+    .catch((err) => {
+      console.error(err);
+      return response.status(500).json({ error: error.code });
+    });
+};
+
 exports.postOnePost = (request, response) => {
   if (request.body.title.trim() === '') {
     return response.status(400).json({ title: 'Title cannot be empty!' });

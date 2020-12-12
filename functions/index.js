@@ -13,6 +13,7 @@ const {
 
 const {
   getAllPosts,
+  getOnePost,
   postOnePost,
   editPost,
   deletePost,
@@ -29,6 +30,7 @@ app.post('/user/image', auth, uploadProfilePhoto);
 
 // Blog Post Routes
 app.get('/posts', getAllPosts);
+app.get('/posts/:postId', getOnePost);
 app.post('/post', auth, postOnePost);
 app.put('/post/:postId', auth, editPost);
 app.delete('/post/:postId', auth, deletePost);

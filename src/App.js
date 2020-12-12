@@ -19,6 +19,7 @@ import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import BlogPage from './pages/BlogPage';
 
 // Utility
 import themeFile from './util/theme';
@@ -30,6 +31,7 @@ if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
     store.dispatch(logoutUser());
+    window.location.replace('/');
   } else {
     store.dispatch({ type: SET_AUTHENTICATED });
     axios.defaults.headers.common['Authorization'] = token;
@@ -43,10 +45,11 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <Provider store={store}>
           <NavBar />
-          <div className='App' style={{ margin: '30px 15px 0px' }}>
+          <div className='App'>
             <Router>
               <Switch>
                 <Route exact path='/' component={Home} />
+                <Route exact path='/blog' component={BlogPage} />
                 <Route exact path='/signup' component={Signup} />
                 <Route exact path='/login' component={Login} />
                 <Route exact path='/dashboard' component={Dashboard} />

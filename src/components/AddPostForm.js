@@ -29,7 +29,6 @@ export class AddPostForm extends Component {
     this.state = {
       title: '',
       body: '',
-      oldFileName: '',
       imageUrl: '',
       progress: 0,
       errors: {},
@@ -60,20 +59,23 @@ export class AddPostForm extends Component {
     });
   };
 
-  handleInputClick = () => {
+  handleInputClick = (e) => {
+    e.preventDefault();
     const fileInput = document.getElementById('imageInput');
     fileInput.click();
   };
 
   handleImageChange = async (e) => {
     let file = e.target.files[0];
-    // this.setState({
-    //   oldFileName: file.name,
-    // });
 
-    const uploadTask = app.storage().ref().child(file.name).put(file);
-    // const storageRef = app.storage().ref();
-    // const fileRef = storageRef.child(imageFileName).put(file);
+    const imageExtension = file.name.split('.')[
+      file.name.split('.').length - 1
+    ];
+    let imageFileName = `${Math.round(
+      Math.random() * 1000000000000
+    ).toString()}.${imageExtension}`;
+
+    const uploadTask = app.storage().ref().child(imageFileName).put(file);
     uploadTask.on(
       'state_changed',
       (snapshot) => {
@@ -91,46 +93,13 @@ export class AddPostForm extends Component {
         app
           .storage()
           .ref()
-          .child(file.name)
+          .child(imageFileName)
           .getDownloadURL()
           .then((imageUrl) => {
             this.setState({ imageUrl });
           });
       }
     );
-
-    // const imageExtension = file.name.split('.')[
-    //   file.name.split('.').length - 1
-    // ];
-    // let imageFileName = `${Math.round(
-    //   Math.random() * 1000000000000
-    // ).toString()}.${imageExtension}`;
-    // const storageRef = app.storage().ref();
-    // const fileRef = storageRef.child(imageFileName).put(file);
-    // await fileRef.put(file);
-
-    // fileRef.on('state_changed', function (snapshot) {
-    //   let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //   console.log(progress);
-    // });
-    // fileRef.on(
-    //   'state_changed',
-    //   function (snapshot) {
-    //     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-    //     console.log(progress);
-    //   },
-    //   function (error) {
-    //     console.log(error);
-    //   },
-    //   function () {
-    //     fileRef.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-    //       this.setState({
-    //         imageUrl: downloadURL,
-    //       });
-    //     });
-    //   }
-    // );
   };
 
   render() {
@@ -150,32 +119,41 @@ export class AddPostForm extends Component {
             noValidate
             onSubmit={this.handleSubmit}
           >
-            <input
-              hidden
-              type='file'
-              id='imageInput'
-              ref={this.hiddenFileInput}
-              onChange={this.handleImageChange}
-            />
-            <Button
-              type='submit'
-              variant='contained'
-              color='primary'
-              className={classes.button}
-              onClick={this.handleInputClick}
+            <Grid
+              container
+              direction='row'
+              justify='space-around'
+              alignItems='flex-end'
             >
-              Upload Image
-            </Button>
-            <img
-              src={imageUrl || 'https://via.placeholder.com/150x100'}
-              style={{ objectFit: 'cover' }}
-              alt='upload box'
-              height='100'
-              width='150'
-            />
+              <Grid item>
+                <img
+                  src={imageUrl || 'https://via.placeholder.com/150x100'}
+                  className={classes.imgThumbnail}
+                  alt='upload box'
+                />
+              </Grid>
+              <Grid item>
+                <input
+                  hidden
+                  type='file'
+                  id='imageInput'
+                  ref={this.hiddenFileInput}
+                  onChange={this.handleImageChange}
+                />
+                <Button
+                  type='submit'
+                  variant='contained'
+                  color='primary'
+                  className={classes.button}
+                  onClick={this.handleInputClick}
+                >
+                  Upload Image
+                </Button>
+              </Grid>
+            </Grid>
             <LinearProgress
               variant='determinate'
-              color='secondary'
+              color='primary'
               value={progress}
               style={{ marginTop: 10 }}
             />

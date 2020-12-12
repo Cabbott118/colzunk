@@ -45,13 +45,20 @@ const styles = (theme) => ({
   },
 });
 
+// const handleClick = (id) => {
+//   // window.location.href = `/blog/${id}`;
+//   console.log(id);
+// };
+
 function BlogPost(props) {
   dayjs.extend(relativeTime);
   const { classes, id, title, body, imageUrl, ownerImg, createdAt } = props;
   return (
     <Grid item xs={12} sm={6} md={4} key={id}>
       <Card className={classes.card}>
-        <CardActionArea>
+        <CardActionArea
+        // onClick={handleClick(id)}
+        >
           {!imageUrl ? (
             <CircularProgress />
           ) : (

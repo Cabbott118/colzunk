@@ -58,66 +58,68 @@ export class Login extends Component {
     } = this.props;
     const { errors } = this.state;
     return (
-      <Grid container className={classes.form}>
-        <Grid item sm />
-        <Grid item sm>
-          <Typography variant='h3' className={classes.pageTitle}>
-            Login
-          </Typography>
-          <form
-            className={classes.accountForm}
-            noValidate
-            onSubmit={this.handleSubmit}
-          >
-            <TextField
-              id='email'
-              name='email'
-              type='email'
-              label='Email'
-              className={classes.textField}
-              helperText={errors.email}
-              error={errors.email ? true : false}
-              value={this.state.email}
-              onChange={this.handleChange}
-              fullWidth
-            />
-            <TextField
-              id='password'
-              name='password'
-              type='password'
-              label='Password'
-              className={classes.textField}
-              helperText={errors.password}
-              error={errors.password ? true : false}
-              value={this.state.password}
-              onChange={this.handleChange}
-              fullWidth
-            />
-            {errors.general && (
-              <Typography variant='body2' className={classes.customError}>
-                {errors.general}
-              </Typography>
-            )}
-            <Button
-              type='submit'
-              variant='contained'
-              color='primary'
-              className={classes.button}
-              disabled={loading}
-            >
+      <div style={{ margin: '30px' }}>
+        <Grid container className={classes.form}>
+          <Grid item sm />
+          <Grid item sm>
+            <Typography variant='h3' className={classes.pageTitle}>
               Login
-              {loading && (
-                <CircularProgress size={30} className={classes.progress} />
+            </Typography>
+            <form
+              className={classes.accountForm}
+              noValidate
+              onSubmit={this.handleSubmit}
+            >
+              <TextField
+                id='email'
+                name='email'
+                type='email'
+                label='Email'
+                className={classes.textField}
+                helperText={errors.email}
+                error={errors.email ? true : false}
+                value={this.state.email}
+                onChange={this.handleChange}
+                fullWidth
+              />
+              <TextField
+                id='password'
+                name='password'
+                type='password'
+                label='Password'
+                className={classes.textField}
+                helperText={errors.password}
+                error={errors.password ? true : false}
+                value={this.state.password}
+                onChange={this.handleChange}
+                fullWidth
+              />
+              {errors.general && (
+                <Typography variant='body2' className={classes.customError}>
+                  {errors.general}
+                </Typography>
               )}
-            </Button>
-            <br />
-            <small>
-              Don't have an account? Register <Link to='/signup'>here!</Link>
-            </small>
-          </form>
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+                className={classes.button}
+                disabled={loading}
+              >
+                Login
+                {loading && (
+                  <CircularProgress size={30} className={classes.progress} />
+                )}
+              </Button>
+              <br />
+              <small>
+                Don't have an account? Register <Link to='/signup'>here!</Link>
+              </small>
+            </form>
+          </Grid>
+          <Grid item sm />
         </Grid>
-        <Grid item sm />
-      </Grid>
+      </div>
     );
   }
 }
