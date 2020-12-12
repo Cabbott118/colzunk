@@ -17,7 +17,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 // Util
 import { app } from '../util/base';
-const db = app.firestore();
+// const db = app.firestore();
 
 const styles = (theme) => ({
   ...theme.spreadThis,

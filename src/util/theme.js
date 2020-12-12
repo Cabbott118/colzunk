@@ -2,12 +2,10 @@ export default {
   palette: {
     primary: {
       main: '#5e8d93',
-      // main: '#7E8D85',
       contrastText: '#fff',
     },
     secondary: {
       main: '#93a9b5',
-      //TODO: fix
       contrastText: '#fff',
     },
   },
@@ -15,14 +13,12 @@ export default {
     // Common styling objects to be spread to components
     home: {
       background: `url('/images/img-home.jpg') center center/cover no-repeat`,
-      height: '100vh',
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
+      height: 'calc(100vh - 64px)',
       boxShadow: 'inset 0 0 0 1000px rgba(0, 0, 0, 0.2)',
-      objectFit: 'contain',
+    },
+    blogPostImg: {
+      width: '100%',
+      borderRadius: '5px',
     },
     typography: {
       useNextVariants: true,

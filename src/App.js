@@ -20,6 +20,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import BlogPage from './pages/BlogPage';
+import Blog from './pages/Blog';
 
 // Utility
 import themeFile from './util/theme';
@@ -50,6 +51,7 @@ class App extends Component {
               <Switch>
                 <Route exact path='/' component={Home} />
                 <Route exact path='/blog' component={BlogPage} />
+                <Route exact path='/blog/:id' component={Blog} />
                 <Route exact path='/signup' component={Signup} />
                 <Route exact path='/login' component={Login} />
                 <Route exact path='/dashboard' component={Dashboard} />

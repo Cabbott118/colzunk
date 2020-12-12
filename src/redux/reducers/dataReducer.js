@@ -23,6 +23,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         post: action.payload,
+        loading: false,
       };
     case ADD_POST:
       return {

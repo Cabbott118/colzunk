@@ -71,15 +71,6 @@ export class Dashboard extends Component {
             Logout
           </Button>
         </Grid>
-
-        {/* <Button
-          className={classes.button}
-          variant='contained'
-          color='secondary'
-          onClick={this.handleLogout}
-        >
-          Logout
-        </Button> */}
       </Paper>
     );
   }

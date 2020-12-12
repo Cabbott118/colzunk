@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = (props) => {
   const classes = useStyles();
-  const { width } = props;
+  // const { width } = props;
 
   return (
     <div className={classes.root}>

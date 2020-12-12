@@ -31,6 +31,7 @@ const UserInfo = (props) => {
           <Grid item>
             <img
               src={imageUrl}
+              alt='User'
               height='175px'
               width='200px'
               style={{ objectFit: 'cover', borderRadius: '5px' }}

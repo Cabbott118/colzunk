@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 // MUI
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -13,7 +15,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import MuiLink from '@material-ui/core/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = (theme) => ({
@@ -45,20 +47,13 @@ const styles = (theme) => ({
   },
 });
 
-// const handleClick = (id) => {
-//   // window.location.href = `/blog/${id}`;
-//   console.log(id);
-// };
-
 function BlogPost(props) {
   dayjs.extend(relativeTime);
   const { classes, id, title, body, imageUrl, ownerImg, createdAt } = props;
   return (
     <Grid item xs={12} sm={6} md={4} key={id}>
       <Card className={classes.card}>
-        <CardActionArea
-        // onClick={handleClick(id)}
-        >
+        <CardActionArea>
           {!imageUrl ? (
             <CircularProgress />
           ) : (
@@ -99,7 +94,15 @@ function BlogPost(props) {
             </Box>
           </Box>
           <Box>
-            <BookmarkBorderIcon />
+            <MuiLink component={Link} to={`blog/${id}`}>
+              <Button
+                variant='contained'
+                color='secondary'
+                className={classes.button}
+              >
+                View Post
+              </Button>
+            </MuiLink>
           </Box>
         </CardActions>
       </Card>
